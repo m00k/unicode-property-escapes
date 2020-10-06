@@ -1,5 +1,5 @@
 // https://unicode.org/reports/tr18/#General_Category_Property
-var latinLettersNumeralsAndSpaceSeperator = /\p{Script=Latin}|\p{Nd}|\p{Zs}/gu;
+var latinLettersNumeralsAndSpaceSeparator = /\p{Script=Latin}|\p{Nd}|\p{Zs}/gu;
 var results = [];
 var overall = 'OK';
 
@@ -62,17 +62,17 @@ var expectedNotToMatch = (
 ).split('');
 
 expectedToMatch.forEach(c => {
-    validate(latinLettersNumeralsAndSpaceSeperator, true, c)
+    validate(latinLettersNumeralsAndSpaceSeparator, true, c);
 })
 expectedNotToMatch.forEach(c => {
-    validate(latinLettersNumeralsAndSpaceSeperator, false, c)
+    validate(latinLettersNumeralsAndSpaceSeparator, false, c);
 })
 
 userAgentEl = document.getElementById('userAgent');
 userAgentEl.innerText = window.navigator.userAgent;
 
 regexEl = document.getElementById('regex');
-regexEl.innerText = latinLettersNumeralsAndSpaceSeperator;
+regexEl.innerText = latinLettersNumeralsAndSpaceSeparator;
 
 overallResultEl = document.getElementById('overall');
 overallResultEl.innerText = overall;

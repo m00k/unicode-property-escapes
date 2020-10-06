@@ -3,6 +3,12 @@ var latinLettersNumeralsAndSpaceSeperator = /\p{Script=Latin}|\p{Nd}|\p{Zs}/gu;
 var results = [];
 var overall = 'OK';
 
+var userAgentEl;
+var regexEl;
+var overallResultEl;
+var resultsWrapper;
+var resultsTable;
+
 var ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 var UMLAUTS = 'ÄäÜüÖöß';
 var POLISH = 'ĄąĆćĘęŁłŃńÓóŚśŹźŻż';
@@ -14,7 +20,7 @@ var letters =
     POLISH +
     TURKISH
     ;
-var numbers = '0123456789'
+var numbers = '0123456789';
 var romanNumerals = 'ⅠⅡⅢⅣ';
 var numberFractions = '½¼¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞⅟↉';
 var ancientGreekNumerals = '𐅅';
@@ -39,21 +45,21 @@ var whitespaces =
 var astralLetters = [
     String.fromCodePoint(0x1D7CB),
 ];
-var expectedToMatch = [
-    ...letters,
-    ...numbers,
-    ...romanNumerals,
-    ...thaiDigitZero, // <-------------------------------- https://www.compart.com/en/unicode/U+0E50
-    ...space,
-];
-var expectedNotToMatch = [
-    ...specialCharacters,
-    ...numberFractions,
-    ...whitespaces,
-    ...astralLetters,
-    ...hinduArabicNumerals,
-    ...ancientGreekNumerals,
-];
+var expectedToMatch = (
+    letters +
+    numbers +
+    romanNumerals +
+    thaiDigitZero + // <-------------------------------- https://www.compart.com/en/unicode/U+0E
+    space
+).split('');
+var expectedNotToMatch = (
+    specialCharacters +
+    numberFractions +
+    whitespaces +
+    astralLetters +
+    hinduArabicNumerals +
+    ancientGreekNumerals
+).split('');
 
 expectedToMatch.forEach(c => {
     validate(latinLettersNumeralsAndSpaceSeperator, true, c)
@@ -62,20 +68,20 @@ expectedNotToMatch.forEach(c => {
     validate(latinLettersNumeralsAndSpaceSeperator, false, c)
 })
 
-var userAgentEl = document.getElementById('userAgent');
+userAgentEl = document.getElementById('userAgent');
 userAgentEl.innerText = window.navigator.userAgent;
 
-var regexEl = document.getElementById('regex');
+regexEl = document.getElementById('regex');
 regexEl.innerText = latinLettersNumeralsAndSpaceSeperator;
 
-var overallResultEl = document.getElementById('overall');
+overallResultEl = document.getElementById('overall');
 overallResultEl.innerText = overall;
 overallResultEl.className = overall;
 
-var resultsTable = document.createElement('table');
+resultsTable = document.createElement('table');
 generateTableHead(resultsTable, results[0]);
 generateTable(resultsTable, results);
-var resultsWrapper = document.getElementById('results');
+resultsWrapper = document.getElementById('results');
 resultsWrapper.appendChild(resultsTable);
 
 function validate(regEx, expected, candidate) {
@@ -103,13 +109,13 @@ function generateTableHead(table, data) {
 
 function generateTable(table, data) {
     data.forEach(dataPoint => {
-        let row = table.insertRow();
+        var row = table.insertRow();
         Object.keys(dataPoint).forEach(key => {
-            let cell = row.insertCell();
+            var cell = row.insertCell();
             if (dataPoint.result === 'NOK') {
                 cell.className = dataPoint.result;
             }
-            let text = document.createTextNode(dataPoint[key]);
+            var text = document.createTextNode(dataPoint[key]);
             cell.appendChild(text);
         });
     });
